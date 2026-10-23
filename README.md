@@ -1,13 +1,15 @@
 # Developing a Neural Network Regression Model
 
 ## AIM
-To develop a neural network regression model for the given dataset.
+To develop, train, and evaluate an Artificial Neural Network (ANN) regression model to predict a student's final marks based on the number of hours they study
 
 ## THEORY
-Explain the problem statement
+In educational institutions, understanding the direct impact of study habits on academic performance is crucial. The goal of this project is to build a predictive system that takes a single continuous feature—the number of hours a student spends studying—and outputs a continuous numerical prediction of their expected final exam score.
+Because the target variable (marks) is a continuous numerical value rather than a discrete category, this challenge is classified as a regression problem
 
 ## Neural Network Model
-Include the neural network model diagram.
+<img width="1126" height="856" alt="image" src="https://github.com/user-attachments/assets/104215e0-fdd4-44d4-9bda-ec9f018f68cd" />
+
 
 ## DESIGN STEPS
 ### STEP 1: 
@@ -44,37 +46,80 @@ Use the trained model to predict  for a new input value .
 
 ## PROGRAM
 
-### Name:
+### Name: HARINE S
 
-### Register Number:
+### Register Number: 212224230081
 
-```python
-class NeuralNet(nn.Module):
-    def __init__(self):
-        super().__init__()
-        #Include your code here
+```
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+df = pd.read_csv("student_study_hours_regression.csv")
 
+print(df)
+    if (epoch + 1) % 100 == 0:
+        print(f"Epoch [{epoch + 1}/{epochs}], Loss: {loss.item():.4f}")
+model.eval()
 
+with torch.no_grad():
+    predictions = model(X_test).numpy()
 
-# Initialize the Model, Loss Function, and Optimizer
+print("\nModel Evaluation")
+print("MSE:", mean_squared_error(y_test.numpy(), predictions))
+print("RMSE:", mean_squared_error(y_test.numpy(), predictions) ** 0.5)
+print("MAE:", mean_absolute_error(y_test.numpy(), predictions))
+print("R2 Score:", r2_score(y_test.numpy(), predictions))
+plt.figure(figsize=(8, 4))
+plt.plot(loss_list)
+plt.xlabel("Epoch")
+plt.ylabel("MSE Loss")
+plt.title("Student Marks Prediction - Training Loss")
+plt.show()
+new_student = [[7]]
 
+new_student_scaled = scaler.transform(new_student)
 
+new_student_tensor = torch.tensor(
+    new_student_scaled,
+    dtype=torch.float32
+)
 
-def train_model(ai_brain, X_train, y_train, criterion, optimizer, epochs=2000):
-    #Include your code here
+with torch.no_grad():
+    predicted_marks = model(new_student_tensor).item()
 
+print(f"Predicted Exam Marks for 7 Study Hours: {predicted_marks:.2f}")
 ```
 
 ### Dataset Information
-Include screenshot of the generated data
+<img width="638" height="434" alt="image" src="https://github.com/user-attachments/assets/e7a592c7-5bd6-452b-a782-5e3d829e33e2" />
+
 
 ### OUTPUT
 
-### Training Loss Vs Iteration Plot
-Include your plot here
+### Training samples and testing samples
+<img width="474" height="201" alt="image" src="https://github.com/user-attachments/assets/af584b1a-e5ec-4c1d-b27d-8e11a789704d" />
+
+## Loss list
+<img width="595" height="525" alt="image" src="https://github.com/user-attachments/assets/8a3430b0-cb40-4d41-8e16-2e87413f5729" />
+
+
+## Model evaluation 
+<img width="771" height="382" alt="image" src="https://github.com/user-attachments/assets/441c19bf-8ffa-46c9-b80d-53d93de58821" />
+
+
+## Plot Diagram 
+<img width="762" height="442" alt="image" src="https://github.com/user-attachments/assets/8b1a84c9-2c76-462e-9f2a-7282e2692145" />
+
 
 ### New Sample Data Prediction
-Include your sample input and output here
+<img width="855" height="436" alt="Screenshot 2026-10-23 090841" src="https://github.com/user-attachments/assets/e0e07411-cd55-49d8-bfe1-6d708d7fefd9" />
+
+
 
 ## RESULT
 Thus, a neural network regression model was successfully developed and trained using PyTorch.
